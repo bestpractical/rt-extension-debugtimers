@@ -1,0 +1,4 @@
+/* Turn on the timer in the RT footer */
+div#footer #time {
+    display: inline
+}
