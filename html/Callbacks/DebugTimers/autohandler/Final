@@ -1,0 +1,14 @@
+<%INIT>
+my $time = Time::HiRes::tv_interval( $HTML::Mason::Commands::m->{'rt_base_time'} );
+my $time_threshold = defined RT::Config->Get('LongRequestThreshold') ? RT::Config->Get('LongRequestThreshold') : 50;
+
+my @request_args;
+map { push @request_args, "$_=" . $HTML::Mason::Commands::m->request_args->{$_} } keys %{$HTML::Mason::Commands::m->request_args};
+my $request_args = join "\n", @request_args;
+
+RT::Logger->debug(
+          $HTML::Mason::Commands::session{'CurrentUser'}->Name . " made a request that took: " . $time . " seconds\n"
+        . "Request URL: " . $HTML::Mason::Commands::m->request_comp->path . " \n"
+        . "Query args: " . $request_args
+    ) if $time >= $time_threshold;
+</%INIT>
