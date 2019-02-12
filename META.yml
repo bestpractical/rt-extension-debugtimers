@@ -16,6 +16,7 @@ meta-spec:
 name: RT-Extension-DebugTimers
 no_index:
   directory:
+    - html
     - inc
 requires:
   perl: 5.10.1
