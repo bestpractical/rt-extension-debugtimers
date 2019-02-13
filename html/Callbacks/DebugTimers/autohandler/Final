@@ -1,0 +1,16 @@
+<%INIT>
+my $time = Time::HiRes::tv_interval( $HTML::Mason::Commands::m->{'rt_base_time'} );
+
+# Default is 40 seconds, current default for FcgidIOTimeout
+my $time_threshold = defined RT::Config->Get('LongRequestThreshold') ?
+    RT::Config->Get('LongRequestThreshold') : 40;
+
+use Data::Dumper;
+my $request_args = $HTML::Mason::Commands::m->request_args;
+
+RT::Logger->debug(
+    $HTML::Mason::Commands::session{'CurrentUser'}->Name . " made a request that took: " . $time . " seconds\n"
+    . "Request URL: " . $HTML::Mason::Commands::m->request_comp->path . " \n"
+    . "Query args: " . Dumper($request_args)
+) if $time >= $time_threshold;
+</%INIT>
