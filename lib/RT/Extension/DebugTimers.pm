@@ -2,7 +2,7 @@ use strict;
 use warnings;
 package RT::Extension::DebugTimers;
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 RT->AddStyleSheets('debug-timers.css');
 
@@ -12,8 +12,9 @@ RT-Extension-DebugTimers - Add detailed timers to debug performance
 
 =head1 DESCRIPTION
 
-This extension provides overlays with additional timers to easily see
-where time is going during RT page loads.
+This extension provides timing and user information in RT's logs
+to help determine which requests by which users may be experiencing slow
+load times. It also enables a page timer in the footer on all RT pages.
 
 =head1 RT VERSION
 
@@ -33,7 +34,7 @@ May need root permissions
 
 =item Edit your F</opt/rt4/etc/RT_SiteConfig.pm>
 
-If you are using RT 4.2 or greater, add this line:
+Add this line:
 
     Plugin('RT::Extension::DebugTimers');
 
@@ -44,6 +45,17 @@ If you are using RT 4.2 or greater, add this line:
 =item Restart your webserver
 
 =back
+
+=head1 CONFIGURATION
+
+=head2 When to log time information
+
+To log timing and request information for only requests that take over
+some number of seconds, add:
+
+    Set($LongRequestThreshold, 3);
+
+to C<RT_SiteConfig.pm>. The default value is 40 seconds.
 
 =head1 AUTHOR
 
